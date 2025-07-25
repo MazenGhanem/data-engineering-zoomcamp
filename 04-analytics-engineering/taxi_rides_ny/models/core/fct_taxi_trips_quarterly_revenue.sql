@@ -28,6 +28,9 @@ select
     year_quarter,
     revenue,
     prev_year_revenue,
-    round((revenue - prev_year_revenue) / prev_year_revenue * 100, 2) as yoy_growth_pct
+    case 
+        when prev_year_revenue is null or prev_year_revenue = 0 then null
+        else round((revenue - prev_year_revenue) / prev_year_revenue * 100, 2)
+    end as yoy_growth_pct
 from yoy_calc
 order by service_type, year, quarter
